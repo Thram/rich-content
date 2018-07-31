@@ -10,11 +10,17 @@ export default class App extends Component {
       <ContentProvider rules={rules} dictionary={dictionary}>
         <div style={{ width: 640, margin: '15px auto' }}>
           <h1>Testing Rich Content</h1>
-          <Content path="text" />
-          <Content path="params" options={{ params: { parameter: 'Hi!' } }} />
-          <Content path="links" />
-          <Content className="v-pad" path="image" />
-          <Content path="classes" />
+          <div className="content">
+            <div>
+              <Content tag="span" path="text.bold" />
+              <Content tag="span" path="text.italic" />
+              <Content tag="span" path="text.both" />
+            </div>
+            <Content path="params" options={{ params: { parameter: 'Hi!' } }} />
+            <Content path="links" />
+            <Content className="v-pad" path="image" />
+            <Content path="classes" />
+          </div>
         </div>
       </ContentProvider>
     );

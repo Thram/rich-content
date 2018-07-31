@@ -1,6 +1,6 @@
 {
   "name": "rich-content",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Controlled Rich text for React",
   "author": "Thram",
   "license": "MIT",
@@ -13,6 +13,7 @@
     "npm": ">=5"
   },
   "scripts": {
+    "commit": "git add . && npx git-cz",
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
     "build": "rollup -c",

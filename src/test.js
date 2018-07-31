@@ -1,6 +1,6 @@
 import { Content } from './'
 
-describe('ExampleComponent', () => {
+describe('Content Rendered', () => {
   it('is truthy', () => {
     expect(Content).toBeTruthy()
   })
