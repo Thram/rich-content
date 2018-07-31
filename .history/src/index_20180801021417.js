@@ -30,8 +30,6 @@ const Content = ({
 )
 Content.propTypes = {
   path: PropTypes.string.isRequired,
-  tag: PropTypes.string,
-  defaultValue: PropTypes.string,
   options: PropTypes.shape({})
 }
 
