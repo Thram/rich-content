@@ -1,13 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import ExampleComponent from 'rich-content'
+import { Content, ContentProvider } from 'rich-content';
+import rules from './rules';
+import dictionary from './dictionary';
 
 export default class App extends Component {
-  render () {
+  render() {
     return (
-      <div>
-        <ExampleComponent text='Modern React component module' />
-      </div>
-    )
+      <ContentProvider rules={rules} dictionary={dictionary}>
+        <div style={{ width: 640, margin: '15px auto' }}>
+          <h1>Testing Rich Content</h1>
+          <Content path="text" />
+          <Content path="params" options={{ params: { parameter: 'Hi!' } }} />
+          <Content path="links" />
+          <Content className="v-pad" path="image" />
+          <Content path="classes" />
+        </div>
+      </ContentProvider>
+    );
   }
 }

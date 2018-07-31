@@ -16,11 +16,13 @@ const Content = ({
   tag: Tag = 'div',
   path,
   defaultValue = '',
-  options = {}
+  options = {},
+  ...props
 }) => (
   <Context.Consumer>
     {({ decoder, dictionary }) => (
       <Tag
+        {...props}
         dangerouslySetInnerHTML={{
           __html: decoder(get(dictionary, path, defaultValue), options)
         }}
@@ -35,5 +37,4 @@ Content.propTypes = {
   options: PropTypes.shape({})
 }
 
-export { ContentProvider, createRule }
-export default Content
+export { Content, ContentProvider, createRule }
