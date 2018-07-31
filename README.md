@@ -35,7 +35,7 @@ export default {
 
 `rules:` Function that returns a dictionary of regular expressions and transformations, that you want to match from your text.
 
-*NOTE: You can use the helper `createRule` to define your markup.*
+__NOTE: You can use the helper `createRule` to define your markup.__
 
 #### Example:
 
@@ -65,9 +65,11 @@ export default ({ params }) => ({
 
 ## Content Params
 
-`tag:` __(default: div)__ Container HTML tag.
+`tag:` *(default: div)* Container HTML tag.
+
 `path:` Path of the value in the dictionary. Ex. `a`, `a.b`, `a.b.c[0]`, `a.b.c[0].d`.
-`options:` __(Optional)__ Extra options defined in your rules. Ex. `{ params: { parameter: 'Hi!' } }`.
+
+`options:` *(Optional)* Extra options defined in your rules. Ex. `{ params: { parameter: 'Hi!' } }`.
 
 ## Usage
 
