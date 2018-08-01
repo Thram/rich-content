@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import { Content, ContentProvider } from 'rich-content';
 import rules from './rules';
 import dictionary from './dictionary';
 
 export default class App extends Component {
+  state = { dictionary: {} };
+
+  async componentDidMount() {
+    const { data } = await axios.get('./dictionary.yml');
+    this.setState({ dictionary: data });
+  }
   render() {
     return (
-      <ContentProvider rules={rules} dictionary={dictionary}>
+      <ContentProvider rules={rules} dictionary={this.state.dictionary}>
         <div style={{ width: 640, margin: '15px auto' }}>
           <h1>Testing Rich Content</h1>
           <div className="content">

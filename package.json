@@ -1,6 +1,6 @@
 {
   "name": "rich-content",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Controlled Rich text for React",
   "author": "Thram",
   "license": "MIT",
@@ -57,5 +57,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "yaml": "^1.0.0-rc.7"
+  }
 }

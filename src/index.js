@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import get from 'lodash/get'
-import { decode, createRule } from './utils'
+import { decode, createRule, parseDictionary } from './utils'
 
 const Context = React.createContext('rich-content')
 
 const ContentProvider = ({ rules, dictionary, ...props }) => (
-  <Context.Provider {...props} value={{ decoder: decode(rules), dictionary }} />
+  <Context.Provider {...props} value={{ decoder: decode(rules), dictionary: parseDictionary(dictionary) }} />
 )
 ContentProvider.propTypes = {
   rules: PropTypes.func.isRequired,

@@ -1,4 +1,7 @@
 import escape from 'lodash/escape'
+import isString from 'lodash/isString'
+import yaml from 'yaml'
+
 const normalize = text => text.replace(/[[\\^$.|?*+(){}]/gm, c => `\\${c}`)
 
 const createRule = (start, end) =>
@@ -12,4 +15,6 @@ const decode = rulesFactory => (text = '', options = {}) => {
   )
 }
 
-export { decode, createRule }
+const parseDictionary = (d = {}) => (isString(d) ? yaml.parse(d) : d)
+
+export { decode, createRule, parseDictionary }
