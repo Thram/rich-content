@@ -3,7 +3,6 @@ import axios from 'axios';
 
 import { Content, ContentProvider } from 'rich-content';
 import rules from './rules';
-import dictionary from './dictionary';
 
 export default class App extends Component {
   state = { dictionary: {} };
