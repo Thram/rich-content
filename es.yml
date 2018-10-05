@@ -1,0 +1,10 @@
+text:
+  bold: '**Soy Negrita**'
+  italic: ~Soy Italica~
+  both: '**~Soy Ambas~**'
+params: 'Esto es un parámetro: %{parameter}'
+error: O no, Lo siento! :(
+links: >-
+  Enlaces: [:http://www.google.com](Abrin en Pestaña nueva)  [http://www.google.com](Abrir en la misma pestaña)
+image: 'Esta es una imagen: [[https://placehold.it/300]](Esta es una imagen)'
+classes: '(:red Yo tengo la clase .red)!'
