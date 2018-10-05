@@ -1,21 +1,41 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { Content, ContentProvider } from 'rich-content';
+import { content, Content, ContentProvider } from 'rich-content';
 import rules from './rules';
 
 export default class App extends Component {
-  state = { dictionary: {} };
+  state = { lang: 'en', dictionary: {}, error: undefined };
 
-  async componentDidMount() {
-    const { data } = await axios.get('./dictionary.yml');
-    this.setState({ dictionary: data });
+  componentDidMount() {
+    this.loadDictionary(this.state.lang);
   }
+  async loadDictionary(lang) {
+    const { data } = await axios.get(`./${lang}.yml`);
+    this.setState({ lang, dictionary: data });
+  }
+
+  showError = ev => {
+    ev.preventDefault();
+    this.setState({ error: content({ path: 'text.bold' }) });
+  };
   render() {
+    const { lang, dictionary, error } = this.state;
     return (
-      <ContentProvider rules={rules} dictionary={this.state.dictionary}>
+      <ContentProvider rules={rules} dictionary={dictionary}>
         <div style={{ width: 640, margin: '15px auto' }}>
           <h1>Testing Rich Content</h1>
+          {error && (
+            <p className="red" dangerouslySetInnerHTML={{ __html: error }} />
+          )}
+          <button
+            onClick={() => this.loadDictionary(lang === 'en' ? 'es' : 'en')}
+          >
+            {lang === 'en' ? 'Cambiar a Español' : 'Change to English'}
+          </button>
+          <button onClick={this.showError}>
+            {lang === 'es' ? 'Mostrar error' : 'Show error'}
+          </button>
           <div className="content">
             <div>
               <Content tag="span" path="text.bold" />

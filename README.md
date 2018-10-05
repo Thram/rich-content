@@ -16,18 +16,19 @@ or with Yarn
 yarn add rich-content
 ```
 
-## ContentProvider Params
+## `<ContentProvider />` Params
 
 `dictionary:` JSON Object or YAML string. All the text with your special markup.
 
 #### Examples:
 
-__YAML version__
+**YAML version**
+
 ```yaml
 text:
-  bold: '**I''m Bold**'
+  bold: "**I'm Bold**"
   italic: ~I'm Italic~
-  both: '**~I''m Both~**'
+  both: "**~I'm Both~**"
 params: 'This is a parameter: %{parameter}'
 links: >-
   Links: [:http://www.google.com](Open in new Tab)  [http://www.google.com](Open
@@ -36,7 +37,8 @@ image: 'This is an image: [[https://placehold.it/300]](This is an image)'
 classes: '(:red I have the .red class)!'
 ```
 
-__JSON version__
+**JSON version**
+
 ```js
 export default {
   text: "**I'm Bold** ~I'm Italic~ **~I'm Both~**",
@@ -50,7 +52,7 @@ export default {
 
 `rules:` Function that returns a dictionary of regular expressions and transformations, that you want to match from your text.
 
-__NOTE: You can use the helper `createRule` to define your markup.__
+**NOTE: You can use the helper `createRule` to define your markup.**
 
 #### Example:
 
@@ -78,30 +80,62 @@ export default ({ params }) => ({
 });
 ```
 
-## Content Params
+## `<Content />` Params
 
-`tag:` *(default: div)* Container HTML tag.
+`tag:` _(default: div)_ Container HTML tag.
 
 `path:` Path of the value in the dictionary. Ex. `a`, `a.b`, `a.b.c[0]`, `a.b.c[0].d`.
 
-`options:` *(Optional)* Extra options defined in your rules. Ex. `{ params: { parameter: 'Hi!' } }`.
+`options:` _(Optional)_ Extra options defined in your rules. Ex. `{ params: { parameter: 'Hi!' } }`.
+
+## `content({ path, options }` Params
+
+`path:` Path of the value in the dictionary. Ex. `a`, `a.b`, `a.b.c[0]`, `a.b.c[0].d`.
+
+`options:` _(Optional)_ Extra options defined in your rules. Ex. `{ params: { parameter: 'Hi!' } }`.
 
 ## Usage
 
 ```jsx
 import React, { Component } from 'react';
 
-import { Content, ContentProvider } from 'rich-content';
+import { content, Content, ContentProvider } from 'rich-content';
 
 import rules from './rules';
 import dictionary from './dictionary';
 
 export default class App extends Component {
+  state = { lang: 'en', dictionary: {}, error: undefined };
+
+  componentDidMount() {
+    this.loadDictionary(this.state.lang);
+  }
+  async loadDictionary(lang) {
+    const { data } = await axios.get(`./${lang}.yml`);
+    this.setState({ lang, dictionary: data });
+  }
+
+  showError = ev => {
+    ev.preventDefault();
+    this.setState({ error: content({ path: 'text.bold' }) });
+  };
   render() {
+    const { lang, dictionary, error } = this.state;
     return (
       <ContentProvider rules={rules} dictionary={dictionary}>
         <div style={{ width: 640, margin: '15px auto' }}>
           <h1>Testing Rich Content</h1>
+          {error && (
+            <p className="red" dangerouslySetInnerHTML={{ __html: error }} />
+          )}
+          <button
+            onClick={() => this.loadDictionary(lang === 'en' ? 'es' : 'en')}
+          >
+            {lang === 'en' ? 'Cambiar a Español' : 'Change to English'}
+          </button>
+          <button onClick={this.showError}>
+            {lang === 'es' ? 'Mostrar error' : 'Show error'}
+          </button>
           <div className="content">
             <div>
               <Content tag="span" path="text.bold" />

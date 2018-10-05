@@ -3,6 +3,7 @@ text:
   italic: ~I'm Italic~
   both: '**~I''m Both~**'
 params: 'This is a parameter: %{parameter}'
+error: Oh no, I'm sorry! :(
 links: >-
   Links: [:http://www.google.com](Open in new Tab)  [http://www.google.com](Open
   in same Tab)

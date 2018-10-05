@@ -5,26 +5,32 @@ import { decode, createRule, parseDictionary } from './utils'
 
 const Context = React.createContext('rich-content')
 
-const ContentProvider = ({ rules, dictionary, ...props }) => (
-  <Context.Provider {...props} value={{ decoder: decode(rules), dictionary: parseDictionary(dictionary) }} />
-)
+const createContent = ({ decoder, dictionary }) => ({
+  path = '',
+  options = {}
+} = {}) => decoder(get(dictionary, path, options.defaultValue), options)
+
+let parser
+
+const ContentProvider = ({ rules, dictionary: d, ...props }) => {
+  const dictionary = parseDictionary(d)
+  const decoder = decode(rules)
+  parser = createContent({ dictionary, decoder })
+  return <Context.Provider {...props} value={{ parser }} />
+}
+
 ContentProvider.propTypes = {
   rules: PropTypes.func.isRequired,
-  dictionary: PropTypes.shape({}).isRequired
+  dictionary: PropTypes.oneOfType([PropTypes.shape({}), PropTypes.string])
+    .isRequired
 }
-const Content = ({
-  tag: Tag = 'div',
-  path,
-  defaultValue = '',
-  options = {},
-  ...props
-}) => (
+const Content = ({ tag: Tag = 'div', path, options = {}, ...props }) => (
   <Context.Consumer>
-    {({ decoder, dictionary }) => (
+    {({ parser }) => (
       <Tag
         {...props}
         dangerouslySetInnerHTML={{
-          __html: decoder(get(dictionary, path, defaultValue), options)
+          __html: parser({ path, options })
         }}
       />
     )}
@@ -33,8 +39,7 @@ const Content = ({
 Content.propTypes = {
   path: PropTypes.string.isRequired,
   tag: PropTypes.string,
-  defaultValue: PropTypes.string,
   options: PropTypes.shape({})
 }
 
-export { Content, ContentProvider, createRule }
+export { parser as content, Content, ContentProvider, createRule }
